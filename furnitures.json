@@ -1,0 +1,62 @@
+[
+    {
+        "category_id": "01",
+        "name": "Bedroom Furniture",
+        "location": "Dhaka",
+        "used": "2years",
+        "selling_price": 57361,
+        "buying_price": 110300,
+        "total_view": 244,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaxiGoZd4xUqKs9xgC5syBpYKcDkp0tm17Hg&usqp=CAU"
+    },
+    {
+        "category_id": "01",
+        "name": "Bedroom Furniture",
+        "location": "Dhaka",
+        "used": "1.5years",
+        "selling_price": 42361,
+        "buying_price": 90300,
+        "total_view": 189,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfp_Taq5qjvuLOp-I9ClYozv0W7Ih6X90ZBiC2AjUCfn6NEJnqrQER5ydoSy3eLskh3n4&usqp=CAU"
+    },
+    {
+        "category_id": "02",
+        "name": "DrawingRoom Furniture",
+        "location": "Dhaka",
+        "used": "3years",
+        "selling_price": 42361,
+        "buying_price": 90300,
+        "total_view": 187,
+        "image": "https://d16pnh712pyiwa.cloudfront.net/wp-content/uploads/2022/03/Buy-Center-table-online-1024x576.png"
+    },
+    {
+        "category_id": "02",
+        "name": "DrawingRoom Furniture",
+        "location": "Dhaka",
+        "used": "1.5years",
+        "selling_price": 42361,
+        "buying_price": 90300,
+        "total_view": 189,
+        "image": "https://st.hzcdn.com/simgs/53b185b004d6c78f_4-1175/contemporary-living-room.jpg"
+    },
+    {
+        "category_id": "03",
+        "name": "Kitchen Furniture",
+        "location": "Dhaka",
+        "used": "1.5years",
+        "selling_price": 42361,
+        "buying_price": 90300,
+        "total_view": 189,
+        "image": "https://static.asianpaints.com/content/dam/asianpaintsbeautifulhomes/spaces/kitchens/latest-kitchen-furniture-designs-you-can-choose-from/kitchen-colours.jpg"
+    },
+    {
+        "category_id": "03",
+        "name": "Kitchen Furniture",
+        "location": "Dhaka",
+        "used": "1.5years",
+        "selling_price": 42361,
+        "buying_price": 90300,
+        "total_view": 189,
+        "image": "https://usa02-en-bfpcabinetry.wondercdn.cn/uploads/image/5ee32ee97a613.jpg"
+    }
+]
