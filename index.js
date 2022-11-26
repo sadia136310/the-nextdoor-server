@@ -21,20 +21,40 @@ async function run() {
     try {
         const categoriesCollection = client.db('nextdoor').collection('categories');
         const furnitureCollection = client.db('nextdoor').collection('furniture');
+        const bookingCollection = client.db('nextdoor').collection('booking');
 
-        app.get('/categories', async (req, res) => {
-            const query = {}
-            const cursor = categoriesCollection.find(query);
-            const categories = await cursor.toArray();
-            res.send(categories);
+        app.get('/product_categories', async (req, res) => {
+
+            const query = {};
+            const categories = await furnitureCollection.find(query).toArray();
+            
+            res.send(categories)
         });
 
-        app.get('/categories/:id', async (req, res) => {
+
+        app.get('/product_categories/:id', async (req, res) => {
             const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const category = await categoriesCollection.findOne(query);
+            const query = {category_id: id};
+            const category = await furnitureCollection.find(query).toArray();
             res.send(category);
-        });
+        })
+
+        app.get('/product', async (req, res) => {
+            const query = {};
+             const products = await categoriesCollection.find(query).toArray()
+             res.send(products);
+         })
+ 
+ 
+         app.get('/product/:id', async (req, res) => {
+             const id = req.params.id;
+             const query = { id: id };
+             const products = await categoriesCollection.findOne(query)
+             res.send(products);
+         })
+
+
+       
 
         app.get('/categoryName', async (req, res) => {
             const query = {}
@@ -43,11 +63,28 @@ async function run() {
             res.send(categories);
         });
 
+       
+
+
+        // app.get('/AllProducts/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { _id: ObjectId(id) };
+        //     const product = await furnitureCollection.find(query).toArray();
+        //     res.send(product);
+        // });
+
         app.post('/add', async (req, res) => {
             const add = req.body;
             const result = await furnitureCollection.insertOne(add);
             res.send(result);
         });
+        app.post('/bookings', async (req, res) => {
+            const booking = req.body;
+            const result = await bookingCollection.insertOne(booking);
+            res.send(result);
+        });
+
+
 
     }
     finally {

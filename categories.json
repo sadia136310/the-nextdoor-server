@@ -1,16 +1,16 @@
 [
     {
-       
+        "id":"01",
         "Category_name": "Bedroom Furniture",
         "image": "https://www.comfyco.com/pics3/fit/m/jm17455.jpg"
     },
     {
-       
+        "id":"02",
         "Category_name": "DrawingRoom Furniture",
         "image": "https://resize.indiatvnews.com/en/resize/newbucket/715_-/2018/01/vastu-1517311724.jpg"
     },
     {
-       
+       "id":"03",
         "Category_name": "Kitchen Furniture",
         "image": "https://myhomemyzone.com/wp-content/uploads/2020/03/1-12.jpg"
     }
