@@ -22,64 +22,86 @@ async function run() {
         const categoriesCollection = client.db('nextdoor').collection('categories');
         const furnitureCollection = client.db('nextdoor').collection('furniture');
         const bookingCollection = client.db('nextdoor').collection('booking');
+        // const bookingCollection = client.db('nextdoor').collection('booking');
 
         app.get('/product_categories', async (req, res) => {
 
             const query = {};
             const categories = await furnitureCollection.find(query).toArray();
-            
+
             res.send(categories)
         });
 
 
         app.get('/product_categories/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {category_id: id};
+            const query = { category_id: id };
             const category = await furnitureCollection.find(query).toArray();
             res.send(category);
         })
 
         app.get('/product', async (req, res) => {
             const query = {};
-             const products = await categoriesCollection.find(query).toArray()
-             res.send(products);
-         })
- 
- 
-         app.get('/product/:id', async (req, res) => {
-             const id = req.params.id;
-             const query = { id: id };
-             const products = await categoriesCollection.findOne(query)
-             res.send(products);
-         })
+            const products = await categoriesCollection.find(query).toArray()
+            res.send(products);
+        })
 
 
-       
+        app.get('/product/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { id: id };
+            const products = await categoriesCollection.findOne(query)
+            res.send(products);
+        })
+
+
+
 
         app.get('/categoryName', async (req, res) => {
             const query = {}
-            const cursor = categoriesCollection.find(query).project({Category_name:1});
+            const cursor = categoriesCollection.find(query).project({ Category_name: 1 });
             const categories = await cursor.toArray();
             res.send(categories);
         });
 
-       
 
 
-        // app.get('/AllProducts/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { _id: ObjectId(id) };
-        //     const product = await furnitureCollection.find(query).toArray();
-        //     res.send(product);
-        // });
+
 
         app.post('/add', async (req, res) => {
             const add = req.body;
             const result = await furnitureCollection.insertOne(add);
             res.send(result);
         });
+
+        app.get('/bookings', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email }
+            const booking = await bookingCollection.find(query).toArray();
+            res.send(booking)
+        });
+
+        app.get('/bookings/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const booking = await bookingCollection.findOne(query);
+            res.send(booking)
+        });
+
+
         app.post('/bookings', async (req, res) => {
             const booking = req.body;
+            console.log(booking)
+
+            const query = {
+                productName: booking.productName,
+                email: booking.email
+            }
+            alreadyBooked = await bookingCollection.find(query).toArray();
+            if (alreadyBooked.length) {
+                const message = `You have already booking this ${booking.productName}`;
+                return res.send({ acknowledged: false, message });
+            }
             const result = await bookingCollection.insertOne(booking);
             res.send(result);
         });
