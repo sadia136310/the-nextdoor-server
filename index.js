@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+
+const jwt = require('jsonwebtoken');
 const port = process.env.PORT || 5000;
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -30,7 +32,7 @@ async function run() {
             const query = {};
             const categories = await furnitureCollection.find(query).toArray();
 
-            res.send(categories)
+            res.send(categories);
         });
 
 
@@ -39,13 +41,20 @@ async function run() {
             const query = { category_id: id };
             const category = await furnitureCollection.find(query).toArray();
             res.send(category);
-        })
+        });
+
+        app.delete('/product_categories/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await furnitureCollection.deleteOne(filter);
+            res.send(result);
+        });
 
         app.get('/product', async (req, res) => {
             const query = {};
             const products = await categoriesCollection.find(query).toArray()
             res.send(products);
-        })
+        });
 
 
         app.get('/product/:id', async (req, res) => {
@@ -53,10 +62,7 @@ async function run() {
             const query = { id: id };
             const products = await categoriesCollection.findOne(query)
             res.send(products);
-        })
-
-
-
+        });
 
         app.get('/categoryName', async (req, res) => {
             const query = {}
@@ -64,9 +70,6 @@ async function run() {
             const categories = await cursor.toArray();
             res.send(categories);
         });
-
-
-
 
 
         app.post('/add', async (req, res) => {
