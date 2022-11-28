@@ -27,12 +27,14 @@ function verifyJWT(req, res, next) {
     const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decoded) {
         if (err) {
-            return res.status(403).send({ message: 'forbidden access' })
+            return res.status(401).send({ message: "unauthorize"  })
         }
         req.decoded = decoded;
         next();
     })
 }
+
+
 
 async function run() {
     try {
@@ -93,9 +95,9 @@ async function run() {
             res.send(result);
         });
 
-        app.get('/bookings',verifyJWT, async (req, res) => {
+        app.get('/bookings', async (req, res) => {
             const email = req.query.email;
-          
+           
             const query = { email: email }
             const booking = await bookingCollection.find(query).toArray();
             res.send(booking)
@@ -161,41 +163,54 @@ async function run() {
             res.send(result);
         });
 
+
+
         app.get('/jwt', async (req, res) => {
             const email = req.query.email;
             const query = { email: email };
             const user = await usersCollection.findOne(query);
             console.log(user)
             if (user) {
+               
                 const token = jwt.sign({ email }, process.env.ACCESS_TOKEN, { expiresIn: '1d' });
                 return res.send({ accessToken: token });
             }
             res.status(403).send({ accessToken: '' });
         });
 
-        app.get('/users', async(req,res)=>{
-            const query ={};
+
+
+        app.get('/users', async (req, res) => {
+            const query = {};
             const users = await usersCollection.find(query).toArray();
             res.send(users);
         })
 
-        app.post('/users',async(req,res)=>{
+        app.post('/users', async (req, res) => {
             const user = req.body;
             console.log(user)
             const result = await usersCollection.insertOne(user);
             res.send(result);
         });
 
-        app.put('/users/admin/:id', async(req,res)=>{
+        app.delete('/users/:id', async (req, res) => {
             const id = req.params.id;
-            const filter = { _id:ObjectId(id)}
-            const options = {upsert:true};
-            const updateDoc={
-                $set:{
-                    role:'verified'
+            const filter = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(filter);
+            res.send(result);
+        });
+
+        app.put('/users/admin/:id', async (req, res) => {
+
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    role: 'verified'
                 }
             }
-            const result = await usersCollection.updateOne(filter,updateDoc,options);
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
 
