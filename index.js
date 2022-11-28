@@ -27,7 +27,7 @@ function verifyJWT(req, res, next) {
     const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.ACCESS_TOKEN, function (err, decoded) {
         if (err) {
-            return res.status(401).send({ message: "unauthorize"  })
+            return res.status(401).send({ message: "unauthorize" })
         }
         req.decoded = decoded;
         next();
@@ -97,7 +97,7 @@ async function run() {
 
         app.get('/bookings', async (req, res) => {
             const email = req.query.email;
-           
+
             const query = { email: email }
             const booking = await bookingCollection.find(query).toArray();
             res.send(booking)
@@ -171,7 +171,7 @@ async function run() {
             const user = await usersCollection.findOne(query);
             console.log(user)
             if (user) {
-               
+
                 const token = jwt.sign({ email }, process.env.ACCESS_TOKEN, { expiresIn: '1d' });
                 return res.send({ accessToken: token });
             }
@@ -198,6 +198,13 @@ async function run() {
             const filter = { _id: ObjectId(id) };
             const result = await usersCollection.deleteOne(filter);
             res.send(result);
+        });
+
+        app.get('/users/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            const user = await usersCollection.findOne(query);
+            res.send({ isAdmin: user?.role === 'verified' })
         });
 
         app.put('/users/admin/:id', async (req, res) => {
